@@ -24,16 +24,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-
-    filepath = upload
-
-    @user = User.new(user_params.except(:profile_photo_data)) do |t|
-      if user_params[:profile_photo_data]
-        t.profile_photo_data = filepath
-        t.profile_photo_name = user_params[:profile_photo_data].original_filename
-        t.profile_photo_mime_type = user_params[:profile_photo_data].content_type
-      end
-    end
+    @user = User.new(user_params)
 
     respond_to do |format|
       if @user.save
@@ -73,19 +64,6 @@ class UsersController < ApplicationController
 
   private
 
-    def upload
-      uploaded_io = params[:user][:profile_photo_data]
-      filename = uploaded_io.original_filename
-      filepath = Rails.root.join( 'public', 'uploads', filename)
-
-      File.open(filepath, 'wb') do |file|
-        file.write(uploaded_io.read)
-      end
-
-      filepath
-
-    end
-
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
@@ -93,6 +71,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:username, :email, :profile_photo_data)
+      params.require(:user).permit(:username, :email, :profile_photo)
     end
 end
