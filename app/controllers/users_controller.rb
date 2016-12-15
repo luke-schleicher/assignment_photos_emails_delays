@@ -25,9 +25,11 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
 
+    filepath = upload
+
     @user = User.new(user_params.except(:profile_photo_data)) do |t|
       if user_params[:profile_photo_data]
-        t.profile_photo_data = user_params[:profile_photo_data].read
+        t.profile_photo_data = filepath
         t.profile_photo_name = user_params[:profile_photo_data].original_filename
         t.profile_photo_mime_type = user_params[:profile_photo_data].content_type
       end
@@ -42,6 +44,7 @@ class UsersController < ApplicationController
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
+
   end
 
   # PATCH/PUT /users/1
@@ -69,6 +72,20 @@ class UsersController < ApplicationController
   end
 
   private
+
+    def upload
+      uploaded_io = params[:user][:profile_photo_data]
+      filename = uploaded_io.original_filename
+      filepath = Rails.root.join( 'public', 'uploads', filename)
+
+      File.open(filepath, 'wb') do |file|
+        file.write(uploaded_io.read)
+      end
+
+      filepath
+
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
