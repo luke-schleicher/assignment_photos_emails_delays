@@ -13,9 +13,9 @@
 <p>
   <strong>Photo:</strong>
   <%= image_tag @user.profile_photo.url %>
-  <%= image_tag @user.profile_photo.url(:large) %>
-  <%= image_tag @user.profile_photo.url(:medium) %>
-  <%= image_tag @user.profile_photo.url(:thumb) %>
+  <%= image_tag @user.profile_photo.expiring_url(10, :large) %>
+  <%= image_tag @user.profile_photo.expiring_url(10, :medium) %>
+  <%= image_tag @user.profile_photo.expiring_url(10, :thumb) %>
 </p
 
 <%= link_to 'Edit', edit_user_path(@user) %> |

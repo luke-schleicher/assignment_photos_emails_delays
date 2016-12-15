@@ -52,6 +52,24 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  config.paperclip_defaults = {
+
+    storage: :s3,
+
+    s3_region: Rails.application.secrets.s3_region,
+
+    s3_credentials: {
+
+      url: "s3-us-west-2.amazonaws.com",
+
+      bucket: Rails.application.secrets.s3_bucket_name,
+      access_key_id: Rails.application.secrets.aws_access_key_id,
+      secret_access_key: Rails.application.secrets.aws_secret_access_key
+
+    }
+
+  }
+
   # This is your imagemagick directory, retrieved
   # using `which convert`
   Paperclip.options[:command_path] = "/usr/local/bin"

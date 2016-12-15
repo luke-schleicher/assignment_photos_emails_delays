@@ -31,6 +31,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'paperclip'
+gem 'aws-sdk'
 gem 'figaro'
 
 group :development, :test do
