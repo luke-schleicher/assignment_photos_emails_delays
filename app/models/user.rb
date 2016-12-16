@@ -4,4 +4,8 @@ class User < ApplicationRecord
 
   validates_attachment_content_type :profile_photo, content_type: /\Aimage\/.*\Z/
 
+  def self.welcome_email(id)
+    UserMailer.welcome(find(id)).deliver
+  end 
+
 end
