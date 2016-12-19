@@ -32,9 +32,10 @@ gem 'jquery-rails'
 # gem 'capistrano-rails', group: :development
 
 gem 'delayed_job_active_record'
+gem 'pg'
 
 group :production do
-  gem 'pg'
+
 end
 
 gem 'paperclip'
